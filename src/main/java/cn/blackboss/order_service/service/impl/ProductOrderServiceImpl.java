@@ -32,15 +32,17 @@ public class ProductOrderServiceImpl implements ProductOrderService {
  *   在通过restTemplate来调用服务   底层也是HTTPCLIENT.
  */
         ServiceInstance instance = loadBalancer.choose("product-service");
-        String url = String.format("http://%s%s/api/v1/product/find?id="+productId,instance.getHost(),instance.getPort());
+        String url = String.format("http://%s:%s/api/v1/product/find?id="+productId,instance.getHost(),instance.getPort());
         RestTemplate restTemplate = new RestTemplate();
-        Object obj = restTemplate.getForObject(url,Map.class);
-        System.out.println(obj);
+        Map productMap = restTemplate.getForObject(url,Map.class);
+//        System.out.println(obj);
 
         ProductOrder productOrder = new ProductOrder();
         productOrder.setCreateTime(new Date());
         productOrder.setUserId(userId);
         productOrder.setTradeNo(UUID.randomUUID().toString());
+        productOrder.setProductName(productMap.get("name").toString());
+        productOrder.setPrice(Integer.parseInt(productMap.get("price").toString()));
         return productOrder;
     }
 }

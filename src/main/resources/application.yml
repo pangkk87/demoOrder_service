@@ -10,3 +10,11 @@ eureka:
 spring:
   application:
     name: order-service
+
+#清空下面3行代码后，客户端负载均衡策略改为默认值，即轮询，可用在服务硬件配置相同的场景下
+#自定义负载均衡策略 product_service是服务名称：已经注册到euraka上的服务
+#值为全路径名称
+#可以查看IRULE是否满足硬件设施
+product-service:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
