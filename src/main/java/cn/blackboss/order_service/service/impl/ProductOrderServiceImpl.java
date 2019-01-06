@@ -25,9 +25,15 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
 //        Object obj = restTemplate.getForObject("http://product-service/api/v1/product/find?id="+productId,Object.class);
 //        System.out.println(obj);
+        //调用商品服务
         String response =  productClient.findById(productId);
-
         JsonNode jsonNode = JsonUtils.str2JsonNode(response);
+
+        /**
+         * 调用用户服务（实现熔断/降级）
+         *
+         */
+        // todo userService
 
 
         ProductOrder productOrder = new ProductOrder();

@@ -1,24 +1,20 @@
 package cn.blackboss.order_service.service;
 
+import cn.blackboss.order_service.failback.ProductClientFailBack;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Map;
-
 /**
  * 可以让服务提供方提供一个jar包，包含DTO和服务interface
  * 这样的好处是像调用本地方法一样，实质还是一个httpclient
  * 数据结构的处理，可以采用json字符串来处理，好处是在修改的时候不用更新DTO的jar包
  *
  * FeignClient(name = "product-service")
- * 对应在ruraka上注册的服务名称一致
+ * 对应在euraka上注册的服务名称一致
  * 添加方法和服务提供方的方法及参数一致
  * 服务提供方如果使用对象 @requestBody时 这边一定使用PostMapping
  */
-@FeignClient(name = "product-service")
+@FeignClient(name = "product-service",fallback = ProductClientFailBack.class)
 public interface ProductClient {
 
     /**

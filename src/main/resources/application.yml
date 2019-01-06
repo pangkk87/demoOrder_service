@@ -9,3 +9,12 @@ eureka:
 spring:
   application:
     name: order-service
+#开启hystrix 修改服务调用超时时间
+fegin:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 2000
